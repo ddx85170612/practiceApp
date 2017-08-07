@@ -30,5 +30,5 @@ const Models = {
 }
 
 
-module.exports = Models1; 
+module.exports = Models; 
 
