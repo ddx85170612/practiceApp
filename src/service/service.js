@@ -4,5 +4,5 @@ const service = {
       console.log(JSON.parse(JSON.stringify(params)));
   }
 }
-export default service2;
+export default service;
 
