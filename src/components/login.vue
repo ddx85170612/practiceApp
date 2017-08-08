@@ -13,8 +13,12 @@
           <el-form-item label="密码">
             <el-input v-model="formLabelAlign.pwd"></el-input>
           </el-form-item>
-         
+  
         </el-form>
+        <div class="submit">
+          <el-button id="login">登陆</el-button>
+        </div>
+  
       </div>
     </div>
   </div>
@@ -43,6 +47,7 @@ export default {
     background-color: rgba(220, 220, 220, 0.5);
     width: 500px;
     height: 400px;
+    border-radius: 15px;
     .title {
       margin-top: 50px;
       text-align: center;
@@ -50,8 +55,12 @@ export default {
       height: auto;
     }
     .form {
-      margin: 50px  auto 0 auto  ;
+      margin: 30px auto 0 auto;
       width: 300px;
+      .submit {
+        width: 100%;
+        text-align: center;
+      }
     }
   }
 }
