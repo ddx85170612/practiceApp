@@ -2,7 +2,6 @@
   <div id="app">
   
     <router-view></router-view>
-    <x-footer></x-footer>
   </div>
 </template>
 
@@ -14,18 +13,12 @@
   }
 }
 </style>
-}
-</style>
 
 
 <script>
-import footer from './components/common/footer.vue';
 
 
 export default {
-  components: {
-    'x-footer': footer
-  }
 
 
   //   data() {
