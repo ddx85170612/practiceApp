@@ -8,15 +8,15 @@
         <div class="user">
           <span>我的菜单</span>
         </div>
-        <ul class="meun" v-bind:key="item" v-for="item in meunData">
+        <ul class="meun" v-bind:key="item.name" v-for="item in meunData">
           <li @click="item.meunFlag =! item.meunFlag">
-            <i class="icon-cog fa-2x"></i>
+            <i class=" fa-2x" v-bind:class="item.icon"></i>
             <span>{{item.name}}</span>
             <i class=" fa-2x" v-bind:class="item.meunFlag ? 'icon-angle-up' :  'icon-angle-down'"></i>
   
           </li>
           <ul class=" meun-child " v-show="item.meunFlag ">
-            <li v-bind:key="child" v-for="child in item.child">
+            <li v-bind:key="child.name" v-for="child in item.child">
               <i class="icon-circle "></i>
               <span>{{child.name}}</span>
             </li>
@@ -41,17 +41,20 @@ export default {
         {
           name: "系统管理",
           meunFlag: false,
+          icon: 'icon-cog',
           child: [{
             name: '用户管理'
           }]
         },
         {
           name: "文章管理",
+          icon: 'icon-book',
           meunFlag: false,
           child: [{
             name: '上传管理'
           }]
         }
+
       ]
     };
   },
@@ -64,6 +67,7 @@ export default {
 
 <style lang="less">
 .home {
+  height: 100%;
   .head {
     width: 100%;
     height: 70px;
@@ -76,8 +80,10 @@ export default {
   }
   .home-main {
     display: flex;
+    height: 100%;
     .left {
       width: 250px;
+      overflow: auto;
       border-right: 1px solid #afaeae;
       .user {
         font-size: 16px;

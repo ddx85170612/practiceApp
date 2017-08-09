@@ -35,21 +35,21 @@ export default {
       formLabelAlign: {
         name: '',
         pwd: ''
-      }
+      },
     };
   },
   methods: {
     submit() {
-      console.log(URL);
+      console.log(this.formLabelAlign);
 
-      router.push('home')
-      // axios.post(URL.createAccount)
-      //   .then((res) => {
-      //     console.log(123)
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   })
+      // router.push('home')
+      axios.post(URL.getAccount,this.formLabelAlign)
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     }
   }
 }
@@ -61,6 +61,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
   .content {
     background-color: rgba(220, 220, 220, 0.5);
     width: 500px;
