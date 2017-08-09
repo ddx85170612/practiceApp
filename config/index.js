@@ -29,7 +29,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
          '/api': {
-        target: 'http://123.207.83.177:8081/viennaUI/',
+        target: 'localhost:8088/api/',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

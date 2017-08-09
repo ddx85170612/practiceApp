@@ -16,7 +16,7 @@
   
         </el-form>
         <div class="submit">
-          <el-button id="login">登陆</el-button>
+          <el-button id="login" @click="submit">登陆</el-button>
         </div>
   
       </div>
@@ -24,6 +24,10 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import URL from "../config/URL";
+import router from '../router'
+
 export default {
   data() {
     return {
@@ -33,6 +37,20 @@ export default {
         pwd: ''
       }
     };
+  },
+  methods: {
+    submit() {
+      console.log(URL);
+
+      router.push('home')
+      // axios.post(URL.createAccount)
+      //   .then((res) => {
+      //     console.log(123)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   })
+    }
   }
 }
 </script>
