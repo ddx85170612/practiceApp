@@ -8,15 +8,16 @@
   
         <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
           <el-form-item label="账户">
-            <el-input v-model="formLabelAlign.name"></el-input>
+            <el-input v-model="formLabelAlign.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="formLabelAlign.pwd"></el-input>
+            <el-input v-model="formLabelAlign.password"></el-input>
           </el-form-item>
   
         </el-form>
         <div class="submit">
           <el-button id="login" @click="submit">登陆</el-button>
+          <el-button id="register" @click="register">注册</el-button>
         </div>
   
       </div>
@@ -33,8 +34,8 @@ export default {
     return {
       labelPosition: 'top',
       formLabelAlign: {
-        name: '',
-        pwd: ''
+        account: '',
+        password: ''
       },
     };
   },
@@ -42,8 +43,17 @@ export default {
     submit() {
       console.log(this.formLabelAlign);
 
-      // router.push('home')
-      axios.post(URL.getAccount,this.formLabelAlign)
+      router.push('home')
+      axios.post(URL.getAccount, this.formLabelAlign)
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    register() {
+      axios.post(URL.createAccount, this.formLabelAlign)
         .then((res) => {
           console.log(res.data)
         })

@@ -12,10 +12,21 @@ db.once('open', () => console.log('mongo connect success'));
 /************** 定义模式loginSchema **************/
 // 用户登录
 const loginSchema = mongoose.Schema({
-    userId: Number,
+    // userId: db.ids.findOneAndUpdate({
+    //     update: {
+    //         $inc: {
+    //             'id': 1
+    //         }
+    //     },
+    //     query: {
+    //         "name": "user"
+    //     },
+    //     new: true
+    // }).id,
     account: String,
     password: String
 });
+
 //文章信息
 const articleListSchema = mongoose.Schema({
     title: String,
@@ -26,9 +37,10 @@ const articleListSchema = mongoose.Schema({
 /************** 定义模型Model **************/
 const Models = {
     users: mongoose.model('users', loginSchema),
-    articleList: mongoose.model('articleList', articleListSchema)
+    articleList: mongoose.model('articleList', articleListSchema),
 }
 
 
-module.exports = Models; 
 
+
+module.exports = Models;
