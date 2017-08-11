@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-  asd
+    这是一个首页
   </div>
 </template>
 <script>

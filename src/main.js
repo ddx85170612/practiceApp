@@ -8,7 +8,10 @@ import 'element-ui/lib/theme-default/index.css'
 import 'normalize.css/normalize.css'
 import axios from 'axios'
 import service from '../src/service/service.js'
+import Vuex from 'vuex';
+
 Vue.use(ElementUI)
+Vue.use(Vuex)
 Vue.prototype.service = service;
 
 Vue.config.productionTip = false

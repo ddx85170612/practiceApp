@@ -21,6 +21,10 @@ export default new Router({
         path: '/',
         name: 'main',
         component: main
+      }, {
+        path: '/userManagement',
+        name: 'userManagement',
+        component: userManagement
       }]
     }
   ]

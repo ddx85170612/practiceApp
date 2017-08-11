@@ -12,17 +12,7 @@ db.once('open', () => console.log('mongo connect success'));
 /************** 定义模式loginSchema **************/
 // 用户登录
 const loginSchema = mongoose.Schema({
-    // userId: db.ids.findOneAndUpdate({
-    //     update: {
-    //         $inc: {
-    //             'id': 1
-    //         }
-    //     },
-    //     query: {
-    //         "name": "user"
-    //     },
-    //     new: true
-    // }).id,
+    userId: Number,
     account: String,
     password: String
 });

@@ -1,0 +1,9 @@
+.bg-gray {
+  background: #333332;
+}
+.data-table {
+  position: relative;
+}
+.data-table .el-table table thead tr th {
+  text-align: center;
+}

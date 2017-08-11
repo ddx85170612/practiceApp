@@ -10,7 +10,7 @@ router.post('/api/login/createAccount', (req, res) => {
     let newAccount = new models.users({
         account: req.body.account,
         password: req.body.password,
-       
+
     });
     // 保存数据newAccount数据进mongoDB
     newAccount.save((err, data) => {
@@ -29,13 +29,32 @@ router.post('/api/login/getAccount', (req, res) => {
         account: req.body.account,
         password: req.body.password
     }
+    var returnData = {
+        data: '',
+        status: '',
+        msg: ''
+    }
+    if (params.account == '' || params.password == '') {
+        returnData.status = 'E';
+        res.send(returnData);
+        return;
+    }
+        console.log(params)
+
     // 通过模型去查找数据库
     models.users.find(params, (err, data) => {
         if (err) {
             res.send(err);
         } else {
-            if (data.length)
-                res.send(data);
+            console.log(data)
+            if (data.length) {
+                returnData.data = data.data;
+                returnData.status = 'S';
+                res.send(returnData);
+            } else {
+                returnData.status = 'E';
+                res.send(returnData);
+            }
         }
     });
 });

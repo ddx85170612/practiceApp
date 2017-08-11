@@ -41,12 +41,20 @@ export default {
   },
   methods: {
     submit() {
-      console.log(this.formLabelAlign);
+      // console.log(this.formLabelAlign);
 
-      router.push('home')
+      // router.push('home')
       axios.post(URL.getAccount, this.formLabelAlign)
         .then((res) => {
-          console.log(res.data)
+          if (res.data.status == "E") {
+            this.$notify({
+              title: '警告',
+              message: '密码错误',
+              type: 'warning'
+            });
+          } else {
+            router.push('home')
+          }
         })
         .catch((err) => {
           console.log(err);

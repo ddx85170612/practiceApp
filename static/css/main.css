@@ -1,0 +1,6 @@
+.data-table {
+  position: relative;
+}
+.data-table .el-table table thead tr th {
+  text-align: center;
+}

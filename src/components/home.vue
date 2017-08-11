@@ -8,7 +8,7 @@
         <div class="user">
           <span>我的菜单</span>
         </div>
-        <ul class="meun" v-bind:key="item.name" v-for="item in meunData">
+        <ul class="meun" v-bind:key="item.name" v-for="item in $store.state.menulist">
           <li @click="item.meunFlag =! item.meunFlag">
             <i class=" fa-2x" v-bind:class="item.icon"></i>
             <span>{{item.name}}</span>
@@ -16,7 +16,7 @@
   
           </li>
           <ul class=" meun-child " v-show="item.meunFlag ">
-            <li v-bind:key="child.name" v-for="child in item.child">
+            <li v-bind:key="child.name" v-for="child in item.child" @click="stateTo(child.url)">
               <i class="icon-circle "></i>
               <span>{{child.name}}</span>
             </li>
@@ -26,11 +26,10 @@
       </div>
       <div class="right ">
         <div class="main_head">
-          <el-breadcrumb separator="/" class="title">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+          <el-breadcrumb  class="title">
+  
+            <el-breadcrumb-item v-bind:key="item.name" v-for="item in $store.state.menudata">{{item.name}}</el-breadcrumb-item>
+  
           </el-breadcrumb>
         </div>
         <router-view></router-view>
@@ -41,34 +40,25 @@
 <script>
 import URL from '../config/URL.js';
 import axios from 'axios';
+import store from '../store/index'
+import router from '../router'
 
 export default {
   data() {
     return {
       meunData: [
-        {
-          name: "系统管理",
-          meunFlag: false,
-          icon: 'icon-cog',
-          child: [{
-            name: '用户管理'
-          }]
-        },
-        {
-          name: "文章管理",
-          icon: 'icon-book',
-          meunFlag: false,
-          child: [{
-            name: '上传管理'
-          }]
-        }
+       
 
       ]
     };
   },
+  store,
   components: {
   },
   methods: {
+    stateTo(name){
+      router.push(name)
+    }
   }
 }
 </script>
@@ -137,7 +127,7 @@ export default {
       .main_head {
         width: 100%;
         font-size: 14px;
-        .title{
+        .title {
           padding: 20px;
         }
       }
