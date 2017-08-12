@@ -47,11 +47,7 @@ export default {
       axios.post(URL.getAccount, this.formLabelAlign)
         .then((res) => {
           if (res.data.status == "E") {
-            this.$notify({
-              title: '警告',
-              message: '密码错误',
-              type: 'warning'
-            });
+             this.$message('密码错误');
           } else {
             router.push('home')
           }

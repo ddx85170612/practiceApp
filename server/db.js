@@ -14,7 +14,9 @@ db.once('open', () => console.log('mongo connect success'));
 const loginSchema = mongoose.Schema({
     userId: Number,
     account: String,
-    password: String
+    password: String,
+    address: String,
+    date: Date,
 });
 
 //文章信息
