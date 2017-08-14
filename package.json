@@ -8,7 +8,7 @@
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "server": "node server/server.js"
+    "server": "node server/index.js"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -21,7 +21,9 @@
     "vux": "^2.0.0",
     "mongodb": "^2.2.25",
     "mongoose": "^4.9.3",
-    "vux-loader": "^1.0.63"
+    "vux-loader": "^1.0.63",
+    "cheerio": "^1.0.0-rc.1",
+    "crawler": "^1.0.5"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

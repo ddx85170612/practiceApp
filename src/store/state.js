@@ -13,7 +13,7 @@ const state = {
       icon: 'icon-cog',
       child: [{
         name: '用户管理',
-        url:'userManagement'
+        url: 'userManagement'
       }]
     },
     {
@@ -21,7 +21,8 @@ const state = {
       icon: 'icon-book',
       meunFlag: false,
       child: [{
-        name: '上传管理'
+        name: '文章列表',
+        url: 'article'
       }]
     }
   ]

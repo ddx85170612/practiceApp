@@ -35,4 +35,8 @@ const Models = {
 
 
 
-module.exports = Models;
+// module.exports = {
+//     Models: Models,
+//     db: db
+// };
+module.exports = db;

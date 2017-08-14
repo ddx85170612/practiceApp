@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import login from '../components/login.vue'
 import home from '../components/home.vue'
 import userManagement from '../components/userManagement.vue'
+import article from '../components/article.vue'
 import main from '../components/main.vue'
 
 Vue.use(Router)
@@ -25,6 +26,10 @@ export default new Router({
         path: '/userManagement',
         name: 'userManagement',
         component: userManagement
+      }, {
+        path: '/article',
+        name: 'article',
+        component: article
       }]
     }
   ]
