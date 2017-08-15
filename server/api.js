@@ -28,45 +28,65 @@ function setParams(obj) {
     return params;
 }
 
+function setId(name, cb) {
+    db.collection('ids').findOneAndUpdate({
+            name: name
+        }, //query
+        {
+            $inc: {
+                id: 1
+            }
+        }, //update
+        function (err, r) { //callback
+            if (err) throw err;
+            cb(r.value.id)
+        }
+    );
+
+}
+
 router.post('/api/login/createAccount', (req, res) => {
     // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
 
     let params = setParams(req.body.params);
     let Data = setData();
 
-
-    db.collection('users', {
-        safe: true
-    }, function (err, collection) {
-        if (err) {
-            res.send(err);
-        } else {
-            collection.find({
-                account: params.account
-            }).toArray(function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    if (data.length > 0) {
-                        Data.status = 'E';
-                        Data.msg = '账户已存在';
-                        res.send(Data)
+    setId('user', function (id) {
+        params.userId = id;
+        db.collection('users', {
+            safe: true
+        }, function (err, collection) {
+            if (err) {
+                res.send(err);
+            } else {
+                collection.find({
+                    account: params.account
+                }).toArray(function (err, data) {
+                    if (err) {
+                        res.send(err);
                     } else {
-                        collection.save(params, function (err, data) {
-                            if (err) {
-                                res.send(err)
-                            } else {
-                                Data.status = 'S';
-                                Data.msg = '新增成功';
-                                res.send(Data)
-                            }
-                        })
+                        if (data.length > 0) {
+                            Data.status = 'E';
+                            Data.msg = '账户已存在';
+                            res.send(Data)
+                        } else {
+                            collection.save(params, function (err, data) {
+                                if (err) {
+                                    res.send(err)
+                                } else {
+                                    Data.status = 'S';
+                                    Data.msg = '新增成功';
+                                    res.send(Data)
+                                }
+                            })
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
 
+        })
     })
+
 
 });
 
@@ -144,59 +164,7 @@ router.post('/api/login/getAllUser', (req, res) => {
 });
 
 
-// 获取文章信息
-router.post('/api/login/setCrawler', (req, res1) => {
-    // 通过模型去查找数据库
-    c.queue([{
-        uri: 'http://www.jianshu.com/',
-        jQuery: false,
-
-        // 覆盖全局的callback
-        callback: function (error, res, done) {
-            if (error) {
-                console.log(error);
-            } else {
-                var $ = cheerio.load(res.body);;
-                // console.log($);
-                // $默认使用Cheerio
-                // 这是为服务端设计的轻量级jQuery核心实现
-                let m = [];
-                $('.note-list li').each(function (idx, ele) {
-                    let title = $(ele).find('.title').text();
-                    let name = $(ele).find('.name a').text();
-                    let abstract = $(ele).find('.abstract').text().replace(/\n/gi, '');
-
-                    var obj = {
-                        title: title,
-                        name: name,
-                        abstract: abstract
-                    }
-                    m.push(obj)
-                })
-                console.log(typeof m);
-                db.collection('article', function (err, collection) {
-                    if (err) {
-                        res1.send(err)
-                    } else {
-                        collection.insertMany(m).toArray(function (err, data) {
-                            if (err) {
-                                res1.send(err)
-                            } else {
-
-                                res1.send('ok')
-                            }
-                        })
-                    }
-                })
-
-
-            }
-            done();
-        }
-    }]);
-});
-
-
+//获取文章信息
 router.post('/api/login/getArticle', (req, res) => {
     let params = setParams(req.body.params);
     let currentIndex = req.body.currentIndex;

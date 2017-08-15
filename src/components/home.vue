@@ -6,7 +6,7 @@
     <div class="home-main">
       <div class="left">
         <div class="user">
-          <span>我的菜单</span>
+          我的菜单
         </div>
         <ul class="meun" v-bind:key="item.name" v-for="item in $store.state.menulist">
           <li @click="item.meunFlag =! item.meunFlag">

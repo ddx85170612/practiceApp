@@ -93,12 +93,6 @@ export default {
       this.tableData.currentIndex = val;
       this.getArticle();
     },
-    setArticle() {
-      service.getData('setCrawler', this.cb, '')
-    },
-    cb(res) {
-      console.log(res);
-    },
     getArticle() {
       service.getData('getArticle', this.cb1, this.params, this.tableData.currentIndex ? this.tableData.currentIndex : 1, 8)
     },
