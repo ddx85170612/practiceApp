@@ -11,7 +11,7 @@
             <el-input v-model="formLabelAlign.account"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="formLabelAlign.password"></el-input>
+            <el-input type="password" v-model="formLabelAlign.password"></el-input>
           </el-form-item>
   
         </el-form>
