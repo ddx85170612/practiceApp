@@ -9,7 +9,14 @@ mongoose.connect('mongodb://localhost:27017/dbapp');
 const db = mongoose.connection;
 db.once('error', () => console.log('mongo connect error'));
 db.once('open', () => console.log('mongo connect success'));
+
+
 /************** 定义模式loginSchema **************/
+//id数据集
+const idsSchema = mongoose.Schema({
+    user: Number
+});
+
 // 用户登录
 const loginSchema = mongoose.Schema({
     userId: Number,
@@ -19,17 +26,28 @@ const loginSchema = mongoose.Schema({
     date: Date,
 });
 
-//文章信息
-const articleListSchema = mongoose.Schema({
+
+// 文章信息
+const articleSchema = mongoose.Schema({
     title: String,
-    content: String,
-    author: String,
-    url: String,
+    abtract: String,
+    name: String,
 });
+
+// 简书信息
+const jsSchema = mongoose.Schema({
+    title: String,
+    abtract: String,
+    name: String,
+});
+
 /************** 定义模型Model **************/
 const Models = {
+    ids: mongoose.model('ids', idsSchema),
     users: mongoose.model('users', loginSchema),
-    articleList: mongoose.model('articleList', articleListSchema),
+    article: mongoose.model('article', articleSchema),
+    js: mongoose.model('js', jsSchema),
+    db: db
 }
 
 
@@ -39,4 +57,4 @@ const Models = {
 //     Models: Models,
 //     db: db
 // };
-module.exports = db;
+module.exports = Models;

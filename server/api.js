@@ -1,5 +1,4 @@
-const models = require('./db').Models;
-const db = require('./db').db;
+var db = require('./db');
 const express = require('express');
 const router = express.Router();
 const c = require('./lib/crawler');
@@ -29,19 +28,17 @@ function setParams(obj) {
 }
 
 function setId(name, cb) {
-    db.collection('ids').findOneAndUpdate({
-            name: name
-        }, //query
-        {
-            $inc: {
-                id: 1
-            }
-        }, //update
-        function (err, r) { //callback
-            if (err) throw err;
-            cb(r.value.id)
+    db.db.collection('ids').findOneAndUpdate({
+        name: name
+    }, {
+        $inc: {
+            ids: 1
         }
-    );
+    }, (err, data) => {
+        data = JSON.parse(JSON.stringify(data))
+        console.log(data.value.ids);
+        cb(data.value.ids)
+    })
 
 }
 
@@ -50,41 +47,34 @@ router.post('/api/login/createAccount', (req, res) => {
 
     let params = setParams(req.body.params);
     let Data = setData();
-
     setId('user', function (id) {
         params.userId = id;
-        db.collection('users', {
-            safe: true
-        }, function (err, collection) {
-            if (err) {
-                res.send(err);
+        
+        db.users.find({
+            account: params.account
+        }, (err, data) => {
+            if (data.length > 0) {
+                Data.status = 'E';
+                Data.msg = '账户已存在';
+                res.send(Data)
             } else {
-                collection.find({
-                    account: params.account
-                }).toArray(function (err, data) {
+                let user = new db.users({
+                    userId: id,
+                    account:params.account,
+                    password:params.password
+                })
+                user.save((err, data) => {
                     if (err) {
-                        res.send(err);
+                        res.send(err)
                     } else {
-                        if (data.length > 0) {
-                            Data.status = 'E';
-                            Data.msg = '账户已存在';
-                            res.send(Data)
-                        } else {
-                            collection.save(params, function (err, data) {
-                                if (err) {
-                                    res.send(err)
-                                } else {
-                                    Data.status = 'S';
-                                    Data.msg = '新增成功';
-                                    res.send(Data)
-                                }
-                            })
-                        }
+                        Data.status = 'S';
+                        Data.msg = '新增成功';
+                        res.send(Data)
                     }
                 })
             }
-
         })
+
     })
 
 
@@ -93,7 +83,7 @@ router.post('/api/login/createAccount', (req, res) => {
 // 获取已有账号接口
 router.post('/api/login/getAccount', (req, res) => {
 
-    let params = setParams(req.body.params);
+    let params = setParams(req.body);
 
     var returnData = {
         data: '',
@@ -105,25 +95,18 @@ router.post('/api/login/getAccount', (req, res) => {
         res.send(returnData);
         return;
     }
-
-    db.collection('users', {
-        safe: true
-    }, function (err, data) {
-        if (err) {
-            res.send(err);
+    db.users.find(params, (err, data) => {
+        console.log(data);
+        if (data.length) {
+            returnData.data = data.data;
+            returnData.status = 'S';
+            res.send(returnData);
         } else {
-            collection.find(params).toArray(function (err, data) {
-                if (data.length) {
-                    returnData.data = data.data;
-                    returnData.status = 'S';
-                    res.send(returnData);
-                } else {
-                    returnData.status = 'E';
-                    res.send(returnData);
-                }
-            })
+            returnData.status = 'E';
+            res.send(returnData);
         }
     })
+
 
 });
 
@@ -137,63 +120,82 @@ router.post('/api/login/getAllUser', (req, res) => {
     let size = req.body.size;
     // let count = db.getCollection('users').count();
     let returnData = setData(currentIndex, size);
-    console.log(params);
-    db.collection('users', {
-        safe: true
-    }, function (err, collection) {
-        /*collection方法用于连接现有表，{safe:true} 选项，当collection不存在的时候报错
-        createCollection方法用于创建新表，{safe:true} 选项，当collection存在的时候报错
-        */
+    db.users.count((err, data) => {
+        returnData.count = data
+    })
+    db.users.find(params, (err, data) => {
         if (err) {
-            console.log(err);
+            res.send(err);
         } else {
-            collection.count(function (err, data) {
-                returnData.count = data
-            });
-            collection.find(params).skip((currentIndex - 1) * size).limit(size).toArray(function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    returnData.data = data
-                    res.send(returnData);
-                }
-            });
+            returnData.data = data
+            res.send(returnData);
         }
-    });
+    }).skip((currentIndex - 1) * size).limit(size)
+
+
 
 });
 
 
 //获取文章信息
 router.post('/api/login/getArticle', (req, res) => {
+    // let params = setParams(req.body.params);
+    // let currentIndex = req.body.currentIndex;
+    // let size = req.body.size;
+    // let returnData = setData(currentIndex, size);
+
+    // db.users.count((err, data) => {
+    //     returnData.count = data
+    //     console.log(data);
+    // })
+
+    // db.article.find((er, data) => {
+    //     console.log(data);
+    // })
+
+    // // if (Object.keys(params).length == 0) {
+    // //     console.log(1222);
+    // //     db.articleList.find((err, data) => {
+    // //         console.log(data);
+    // //         if (err) {
+    // //             res.send(err);
+    // //         } else {
+    // //             returnData.data = data
+    // //             res.send(returnData);
+    // //         }
+    // //     }).skip((currentIndex - 1) * size).limit(size)
+    // // } else {
+    // db.users.find(params, (err, data) => {
+    //     console.log(data);
+    //     if (err) {
+    //         res.send(err);
+    //     } else {
+    //         returnData.data = data
+    //         res.send(returnData);
+    //     }
+    // }).skip((currentIndex - 1) * size).limit(size)
+    // // }
+
+
     let params = setParams(req.body.params);
     let currentIndex = req.body.currentIndex;
     let size = req.body.size;
+    // let count = db.getCollection('users').count();
     let returnData = setData(currentIndex, size);
-
-    db.collection('article', {
-        safe: true
-    }, function (err, collection) {
-        /*collection方法用于连接现有表，{safe:true} 选项，当collection不存在的时候报错
-        createCollection方法用于创建新表，{safe:true} 选项，当collection存在的时候报错
-        */
+    db.js.count((err, data) => {
+        console.log(data);
+        returnData.count = data
+    })
+    db.js.find(params, (err, data) => {
         if (err) {
-            console.log(err);
+            res.send(err);
         } else {
-            collection.count(function (err, data) {
-                console.log(data);
-                returnData.count = data
-            });
-            collection.find(params).skip((currentIndex - 1) * size).limit(size).toArray(function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    returnData.data = data
-                    res.send(returnData);
-                }
-            });
+            returnData.data = data
+            res.send(returnData);
         }
-    });
+    }).skip((currentIndex - 1) * size).limit(size)
+
+
 
 
 })
