@@ -139,48 +139,9 @@ router.post('/api/login/getAllUser', (req, res) => {
 
 //获取文章信息
 router.post('/api/login/getArticle', (req, res) => {
-    // let params = setParams(req.body.params);
-    // let currentIndex = req.body.currentIndex;
-    // let size = req.body.size;
-    // let returnData = setData(currentIndex, size);
-
-    // db.users.count((err, data) => {
-    //     returnData.count = data
-    //     console.log(data);
-    // })
-
-    // db.article.find((er, data) => {
-    //     console.log(data);
-    // })
-
-    // // if (Object.keys(params).length == 0) {
-    // //     console.log(1222);
-    // //     db.articleList.find((err, data) => {
-    // //         console.log(data);
-    // //         if (err) {
-    // //             res.send(err);
-    // //         } else {
-    // //             returnData.data = data
-    // //             res.send(returnData);
-    // //         }
-    // //     }).skip((currentIndex - 1) * size).limit(size)
-    // // } else {
-    // db.users.find(params, (err, data) => {
-    //     console.log(data);
-    //     if (err) {
-    //         res.send(err);
-    //     } else {
-    //         returnData.data = data
-    //         res.send(returnData);
-    //     }
-    // }).skip((currentIndex - 1) * size).limit(size)
-    // // }
-
-
     let params = setParams(req.body.params);
     let currentIndex = req.body.currentIndex;
     let size = req.body.size;
-    // let count = db.getCollection('users').count();
     let returnData = setData(currentIndex, size);
     db.js.count((err, data) => {
         console.log(data);
