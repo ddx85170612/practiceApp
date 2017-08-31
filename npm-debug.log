@@ -7,7 +7,7 @@
 6 silly lifecycle myapp@1.0.0~preserver: no script for preserver, continuing
 7 info lifecycle myapp@1.0.0~server: myapp@1.0.0
 8 verbose lifecycle myapp@1.0.0~server: unsafe-perm in lifecycle true
-9 verbose lifecycle myapp@1.0.0~server: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/dengdunxin/git/practiceApp/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin
+9 verbose lifecycle myapp@1.0.0~server: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/dengdunxin/git/practiceApp/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin:/usr/local/mysql/bin
 10 verbose lifecycle myapp@1.0.0~server: CWD: /Users/dengdunxin/git/practiceApp
 11 silly lifecycle myapp@1.0.0~server: Args: [ '-c', 'node server/index.js' ]
 12 silly lifecycle myapp@1.0.0~server: Returned: code: 1  signal: null
