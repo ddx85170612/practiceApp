@@ -19,6 +19,7 @@ function setData(index, size, count) {
 
 function setParams(obj) {
     let params = {};
+    cccc;
     for (var key in obj) {
         if (obj[key] != '') {
             params[key] = obj[key];
