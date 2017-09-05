@@ -26,7 +26,9 @@
   
         <el-table-column prop="title"  label="标题" width="180">
         </el-table-column>
-        <el-table-column prop="name" label="名字" width="180">
+        <el-table-column prop="author" label="名字" width="180">
+        </el-table-column>
+         <el-table-column prop="tag" label="类型" width="180">
         </el-table-column>
         <el-table-column prop="abstract" label="内容" >
         </el-table-column>
@@ -43,7 +45,7 @@
           <el-input v-model="data.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="名字" class="col-md-6" :label-width="formLabelWidth">
-          <el-input v-model="data.name" auto-complete="off"></el-input>
+          <el-input v-model="data.author" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="内容" class="col-md-6" :label-width="formLabelWidth">
           <el-input v-model="data.abstract" auto-complete="off"></el-input>
@@ -69,13 +71,15 @@ export default {
     return {
       params: {
         title: '',
-        name: '',
+        author: '',
         abstract: '',
+        tag: '',
       },
       data: {
         title: '',
-        name: '',
+        author: '',
         abstract: '',
+        tag: '',
       },
       dialogFormVisible: false,
       formLabelWidth: '120px',

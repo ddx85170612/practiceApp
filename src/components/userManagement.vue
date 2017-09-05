@@ -4,9 +4,9 @@
       <div class="text-right ">
         <button class="btn btn-default btn-sm" @click="getAllUser()">
           <i class="icon-search"></i>搜索</button>
-        <button class="btn btn-default btn-sm" @click="dialogFormVisible=true">
+        <button class="btn btn-default btn-sm" @click="add()">
           <i class="icon-plus"></i>新增</button>
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm" @click="update()">
           <i class="icon-edit"></i>修改</button>
       </div>
       <!-- <div class="inputForm"> -->
@@ -14,16 +14,16 @@
         <el-form-item label="用户名:" class="col-md-3">
           <el-input v-model="params.account"></el-input>
         </el-form-item>
-        <el-form-item label="日期:" class="col-md-3">
+        <!-- <el-form-item label="日期:" class="col-md-3">
           <el-input v-model="params.address"></el-input>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <!-- </div> -->
     </div>
-  
+
     <div class="data-table">
-      <el-table :data="tableData.data" style="width: 100%" highlight-current-row class="text-center">
-  
+      <el-table :data="tableData.data" style="width: 100%" @row-click="rowClick" highlight-current-row class="text-center">
+        <el-table-column type="index" label="序号" width="50"></el-table-column>
         <el-table-column prop="account" label="姓名" width="180">
         </el-table-column>
         <el-table-column prop="address" label="地址">
@@ -36,7 +36,7 @@
         </el-pagination>
       </div>
     </div>
-  
+
     <el-dialog title="用户" :visible.sync="dialogFormVisible">
       <el-form :model="data">
         <el-form-item class="col-md-6" label="用户名" :label-width="formLabelWidth">
@@ -82,6 +82,7 @@ export default {
         date: '',
         address: ''
       },
+      updateData: {},
       dialogFormVisible: false,
       formLabelWidth: '120px',
       tableData: {},
@@ -93,7 +94,7 @@ export default {
   },
   methods: {
     submit() {
-      service.getData('createAccount', this.cb1, this.data);
+      service.getData('userSave', this.cb1, this.data);
     },
     cb1(res) {
       if (res.status == "E") {
@@ -106,7 +107,7 @@ export default {
       }
     },
     getAllUser() {
-      service.getData('getAllUser', this.cb2, this.params, this.tableData.currentIndex ? this.tableData.currentIndex : 1, 10);
+      service.getData('userFind', this.cb2, this.params, this.tableData.currentIndex ? this.tableData.currentIndex : 1, 10);
     },
     cb2(res) {
       console.log(res);
@@ -117,6 +118,22 @@ export default {
     handleCurrentChange(val) {
       this.tableData.currentIndex = val;
       this.getAllUser();
+    },
+    update() {
+      this.data = service.copy(this.updateData)
+      this.dialogFormVisible = true;
+    },
+    add() {
+      this.data = {
+        account: '',
+        password: '',
+        date: '',
+        address: ''
+      }
+      this.dialogFormVisible = true;
+    },
+    rowClick(row) {
+      this.updateData = row
     }
   }
 }
