@@ -42,5 +42,3 @@ router.post('/api/user/userSave', (req, res) => {
     }, params);
 });
 
-
-module.exports = router;

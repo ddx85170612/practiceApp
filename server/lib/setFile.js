@@ -1,14 +1,53 @@
 var fs = require('fs');
-let fileName='ss'
+let fileName = 'users'
+let filePath = 'login'
+let tabName = 'login'
 
 
 
 
-let str ="const express = require('express');const router = express.Router();const common = require('../common');var service = require('../api_server/user_server');router.post('/api/user/"+fileName+"',(req,res) =>{let params = common.setParams(req.body.params);let currentIndex = req.body.currentIndex;let size = req.body.size;let returnData = common.setData(currentIndex,size);if(params.account == '' || params.password == ''){returnData.status = 'E';res.send(returnData);return}service.userFind((data) =>{returnData.data = data.data;returnData.count = data.count;res.send(returnData)},params)});router.post('/api/user/userSave',(req,res) =>{let params = common.setParams(req.body.params);let returnData = common.setData();service.userSave((data,msg) =>{if(data == 'E'){returnData.status = data;returnData.msg = '该用户已存在';res.send(returnData)}else{returnData.status = 'S';returnData.msg = msg;returnData.data = data;res.send(returnData)}},params)});module.exports = router;"
-fs.writeFile(  fileName+'.js', str, {flag: 'a'}, function (err) {
-  if(err) {
-   console.error(err);
-   } else {
-      console.log('写入成功');
-   }
-}); 
+var api = fs.readFileSync('api.js', 'utf8');
+var server = fs.readFileSync('server.js', 'utf8');
+
+fs.readFile('api.js', {
+  flag: 'r+',
+  encoding: 'utf8'
+}, function (err, data) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  data = data.replace(/filePath/g, filePath);
+  data = data.replace(/fileName/g, fileName);
+  fs.writeFile('../api/'+fileName + '.js', data, {
+    flag: 'a'
+  }, function (err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('api写入成功');
+    }
+  });
+});
+
+fs.readFile('server.js', {
+  flag: 'r+',
+  encoding: 'utf8'
+}, function (err, data) {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  data = data.replace(/tabName/g, tabName);
+  data = data.replace(/fileName/g, fileName);
+
+  fs.writeFile('../api_server/'+fileName + '_server.js', data, {
+    flag: 'a'
+  }, function (err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('server写入成功');
+    }
+  });
+});
